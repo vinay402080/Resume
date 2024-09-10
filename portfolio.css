@@ -1,0 +1,151 @@
+/* Basic Reset */
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+/* Body and Layout */
+body {
+  font-family: Arial, sans-serif;
+  color: #ffffff;
+  background-color: #141414;
+}
+
+header {
+  background-color: #000000;
+  color: #ffffff;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 10px 20px;
+}
+
+header .logo {
+  font-size: 24px;
+  font-weight: bold;
+}
+
+header nav {
+  display: flex;
+  gap: 20px;
+}
+
+header nav a {
+  color: #ffffff;
+  text-decoration: none;
+  font-size: 14px;
+}
+
+header .profile-icon {
+  width: 30px;
+  height: 30px;
+  border-radius: 50%;
+  background-color: #ffffff;
+}
+
+.hero {
+  background-image: url('hero-bg.jpg');
+  background-size: cover;
+  background-position: center;
+  height: 500px;
+  color: #ffffff;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  text-align: center;
+  padding: 0 20px;
+}
+
+.hero h1 {
+  font-size: 48px;
+  margin-bottom: 20px;
+}
+
+.hero p {
+  font-size: 20px;
+  margin-bottom: 30px;
+}
+
+.hero .btn {
+  background-color: #e50914;
+  color: #ffffff;
+  padding: 10px 20px;
+  border: none;
+  border-radius: 5px;
+  font-size: 16px;
+  cursor: pointer;
+  text-decoration: none;
+}
+
+.portfolio {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+  gap: 20px;
+  padding: 20px;
+}
+
+.portfolio-card {
+  position: relative;
+  overflow: hidden;
+  border-radius: 8px;
+  background-color: #333333;
+  transition: transform 0.3s ease;
+}
+
+.portfolio-card:hover {
+  transform: scale(1.05);
+}
+
+.portfolio-card img {
+  width: 100%;
+  height: auto;
+  display: block;
+  border-bottom: 3px solid #e50914;
+}
+
+.card-content {
+  padding: 15px;
+  color: #ffffff;
+}
+
+.card-content h2 {
+  font-size: 20px;
+  margin-bottom: 10px;
+}
+
+.card-content p {
+  font-size: 16px;
+}
+
+footer {
+  background-color: #000000;
+  color: #ffffff;
+  text-align: center;
+  padding: 10px;
+  position: relative;
+  bottom: 0;
+  width: 100%;
+}
+
+footer a {
+  color: #e50914;
+  text-decoration: none;
+  margin: 0 10px;
+}
+
+@media (max-width: 768px) {
+  header nav {
+    flex-direction: column;
+    gap: 10px;
+  }
+
+  .hero h1 {
+    font-size: 36px;
+  }
+
+  .hero p {
+    font-size: 18px;
+  }
+}
