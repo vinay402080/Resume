@@ -3,50 +3,627 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Portfolio</title>
-  <link rel="stylesheet" href="portfolio.css">
+  <title>Vinay Kumar — Azure .NET Developer</title>
+  <link href="https://fonts.googleapis.com/css2?family=Syne:wght@400;600;700;800&family=DM+Sans:ital,wght@0,300;0,400;0,500;1,300&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --bg: #0a0d14;
+      --bg2: #111520;
+      --bg3: #161c2d;
+      --accent: #4f8ef7;
+      --accent2: #7eb8f7;
+      --line: rgba(79,142,247,0.18);
+      --text: #e8edf5;
+      --muted: #7a869e;
+      --card: #13182a;
+      --card-border: rgba(79,142,247,0.15);
+      --tag-bg: rgba(79,142,247,0.1);
+      --tag-text: #7eb8f7;
+    }
+    *, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
+    html { scroll-behavior: smooth; }
+    body { font-family: 'DM Sans', sans-serif; background: var(--bg); color: var(--text); line-height: 1.7; overflow-x: hidden; }
+
+    /* ── HEADER ── */
+    header {
+      position: sticky; top: 0; z-index: 100;
+      background: rgba(10,13,20,0.92);
+      backdrop-filter: blur(12px);
+      border-bottom: 1px solid var(--line);
+      display: flex; align-items: center; justify-content: space-between;
+      padding: 0 5%;
+      height: 64px;
+    }
+    .logo { font-family: 'Syne', sans-serif; font-weight: 800; font-size: 1.1rem; color: var(--accent); letter-spacing: 0.04em; }
+    nav { display: flex; gap: 2rem; }
+    nav a { color: var(--muted); text-decoration: none; font-size: 0.88rem; font-weight: 400; letter-spacing: 0.03em; transition: color 0.2s; }
+    nav a:hover { color: var(--text); }
+    .header-cta { background: var(--accent); color: #fff; font-size: 0.82rem; font-weight: 500; padding: 7px 18px; border-radius: 6px; text-decoration: none; letter-spacing: 0.03em; transition: opacity 0.2s; }
+    .header-cta:hover { opacity: 0.85; }
+    .hamburger { display: none; flex-direction: column; gap: 5px; cursor: pointer; padding: 4px; }
+    .hamburger span { display: block; width: 22px; height: 2px; background: var(--text); border-radius: 2px; }
+
+    /* ── HERO ── */
+    .hero {
+      min-height: 100vh;
+      display: flex; align-items: center;
+      padding: 0 5%;
+      position: relative;
+      overflow: hidden;
+    }
+    .hero::before {
+      content: '';
+      position: absolute; inset: 0;
+      background: radial-gradient(ellipse 60% 60% at 70% 40%, rgba(79,142,247,0.08) 0%, transparent 70%);
+      pointer-events: none;
+    }
+    .hero-grid {
+      display: grid; grid-template-columns: 1fr 1fr;
+      gap: 4rem; align-items: center;
+      max-width: 1200px; margin: 0 auto; width: 100%;
+    }
+    .hero-tag {
+      display: inline-flex; align-items: center; gap: 8px;
+      background: var(--tag-bg); color: var(--tag-text);
+      border: 1px solid var(--card-border);
+      font-size: 0.78rem; font-weight: 500; letter-spacing: 0.08em; text-transform: uppercase;
+      padding: 6px 14px; border-radius: 100px; margin-bottom: 1.5rem;
+    }
+    .hero-tag::before { content: ''; width: 6px; height: 6px; border-radius: 50%; background: var(--accent); animation: blink 2s infinite; }
+    @keyframes blink { 0%,100%{opacity:1} 50%{opacity:0.3} }
+    .hero h1 { font-family: 'Syne', sans-serif; font-size: clamp(2.4rem, 5vw, 3.6rem); font-weight: 800; line-height: 1.1; margin-bottom: 1.2rem; }
+    .hero h1 span { color: var(--accent); }
+    .hero-desc { color: var(--muted); font-size: 1rem; font-weight: 300; line-height: 1.8; max-width: 480px; margin-bottom: 2rem; }
+    .hero-btns { display: flex; gap: 1rem; flex-wrap: wrap; }
+    .btn-primary { background: var(--accent); color: #fff; padding: 12px 28px; border-radius: 8px; text-decoration: none; font-size: 0.9rem; font-weight: 500; transition: opacity 0.2s; }
+    .btn-primary:hover { opacity: 0.85; }
+    .btn-secondary { background: transparent; color: var(--text); border: 1px solid var(--line); padding: 12px 28px; border-radius: 8px; text-decoration: none; font-size: 0.9rem; font-weight: 400; transition: border-color 0.2s; }
+    .btn-secondary:hover { border-color: var(--accent); color: var(--accent); }
+    .hero-stats { display: grid; grid-template-columns: repeat(3,1fr); gap: 1rem; margin-top: 3rem; }
+    .stat { padding: 1rem 0; border-top: 1px solid var(--line); }
+    .stat-num { font-family: 'Syne', sans-serif; font-size: 1.8rem; font-weight: 700; color: var(--accent); }
+    .stat-label { font-size: 0.78rem; color: var(--muted); margin-top: 2px; }
+    .hero-visual { position: relative; }
+    .code-card {
+      background: var(--card); border: 1px solid var(--card-border);
+      border-radius: 14px; padding: 1.5rem;
+      font-family: 'Courier New', monospace; font-size: 0.78rem; color: var(--muted);
+      line-height: 1.9;
+    }
+    .code-card .c-comment { color: #4a5568; }
+    .code-card .c-key { color: #7eb8f7; }
+    .code-card .c-val { color: #68d391; }
+    .code-card .c-str { color: #f6ad55; }
+    .code-dot { display: flex; gap: 6px; margin-bottom: 1rem; }
+    .code-dot span { width: 10px; height: 10px; border-radius: 50%; }
+    .dot-r { background: #ff5f57; } .dot-y { background: #febc2e; } .dot-g { background: #28c840; }
+    .float-badge {
+      position: absolute; bottom: -1rem; left: -1.5rem;
+      background: var(--bg3); border: 1px solid var(--card-border);
+      border-radius: 10px; padding: 10px 16px;
+      display: flex; align-items: center; gap: 10px;
+      font-size: 0.78rem;
+    }
+    .badge-icon { width: 32px; height: 32px; border-radius: 8px; background: rgba(79,142,247,0.15); display: flex; align-items: center; justify-content: center; }
+
+    /* ── SECTIONS ── */
+    section { padding: 6rem 5%; }
+    .section-inner { max-width: 1200px; margin: 0 auto; }
+    .section-label { font-size: 0.75rem; font-weight: 500; letter-spacing: 0.12em; text-transform: uppercase; color: var(--accent); margin-bottom: 0.6rem; }
+    .section-title { font-family: 'Syne', sans-serif; font-size: clamp(1.8rem, 3.5vw, 2.4rem); font-weight: 700; margin-bottom: 1rem; }
+    .section-sub { color: var(--muted); font-size: 0.95rem; font-weight: 300; max-width: 520px; line-height: 1.8; }
+    .divider { width: 48px; height: 2px; background: var(--accent); border-radius: 2px; margin: 1.2rem 0 2.5rem; }
+
+    /* ── ABOUT ── */
+    #about { background: var(--bg2); }
+    .about-grid { display: grid; grid-template-columns: 1fr 1.4fr; gap: 4rem; align-items: start; margin-top: 3rem; }
+    .avatar-wrap { position: relative; }
+    .avatar {
+      width: 100%; aspect-ratio: 1;
+      background: var(--bg3); border-radius: 16px;
+      border: 1px solid var(--card-border);
+      display: flex; align-items: center; justify-content: center;
+      font-family: 'Syne', sans-serif; font-size: 5rem; font-weight: 800; color: var(--accent);
+      letter-spacing: -0.02em;
+    }
+    .cert-badges { margin-top: 1.5rem; display: flex; flex-direction: column; gap: 0.6rem; }
+    .cert-badge { background: var(--card); border: 1px solid var(--card-border); border-radius: 8px; padding: 0.7rem 1rem; display: flex; align-items: center; gap: 10px; font-size: 0.82rem; }
+    .cert-icon { width: 28px; height: 28px; border-radius: 6px; background: rgba(79,142,247,0.15); display: flex; align-items: center; justify-content: center; font-size: 14px; flex-shrink: 0; }
+    .cert-name { color: var(--text); font-weight: 500; font-size: 0.8rem; }
+    .cert-year { color: var(--muted); font-size: 0.72rem; margin-top: 1px; }
+    .about-text p { color: var(--muted); font-size: 0.95rem; font-weight: 300; line-height: 1.9; margin-bottom: 1.2rem; }
+    .about-text p strong { color: var(--text); font-weight: 500; }
+    .skills-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 0.8rem; margin-top: 2rem; }
+    .skill-item { display: flex; flex-direction: column; gap: 6px; }
+    .skill-label { display: flex; justify-content: space-between; font-size: 0.8rem; color: var(--muted); }
+    .skill-bar { height: 4px; background: var(--bg3); border-radius: 2px; overflow: hidden; }
+    .skill-fill { height: 100%; background: var(--accent); border-radius: 2px; }
+
+    /* ── SKILLS ── */
+    #skills { background: var(--bg); }
+    .skills-cats { display: grid; grid-template-columns: repeat(auto-fill, minmax(280px, 1fr)); gap: 1.2rem; margin-top: 3rem; }
+    .skill-cat { background: var(--card); border: 1px solid var(--card-border); border-radius: 12px; padding: 1.4rem; transition: border-color 0.2s; }
+    .skill-cat:hover { border-color: rgba(79,142,247,0.4); }
+    .skill-cat-title { font-family: 'Syne', sans-serif; font-size: 0.82rem; font-weight: 600; color: var(--accent); text-transform: uppercase; letter-spacing: 0.08em; margin-bottom: 1rem; display: flex; align-items: center; gap: 8px; }
+    .skill-cat-icon { width: 28px; height: 28px; border-radius: 6px; background: rgba(79,142,247,0.1); display: flex; align-items: center; justify-content: center; }
+    .tags { display: flex; flex-wrap: wrap; gap: 0.5rem; }
+    .tag { background: var(--tag-bg); color: var(--tag-text); border: 1px solid rgba(79,142,247,0.2); font-size: 0.75rem; font-weight: 400; padding: 4px 11px; border-radius: 100px; }
+
+    /* ── EXPERIENCE ── */
+    #experience { background: var(--bg2); }
+    .timeline { position: relative; margin-top: 3rem; }
+    .timeline::before { content: ''; position: absolute; left: 0; top: 0; bottom: 0; width: 1px; background: var(--line); }
+    .tl-item { padding-left: 2.5rem; padding-bottom: 3rem; position: relative; }
+    .tl-dot { position: absolute; left: -5px; top: 4px; width: 11px; height: 11px; border-radius: 50%; background: var(--accent); box-shadow: 0 0 0 3px rgba(79,142,247,0.15); }
+    .tl-date { font-size: 0.75rem; color: var(--muted); font-weight: 400; letter-spacing: 0.06em; text-transform: uppercase; margin-bottom: 0.4rem; }
+    .tl-role { font-family: 'Syne', sans-serif; font-size: 1.1rem; font-weight: 700; color: var(--text); }
+    .tl-company { color: var(--accent); font-size: 0.9rem; font-weight: 400; margin-bottom: 1rem; }
+    .tl-bullets { list-style: none; display: flex; flex-direction: column; gap: 0.5rem; }
+    .tl-bullets li { color: var(--muted); font-size: 0.88rem; font-weight: 300; line-height: 1.7; padding-left: 1rem; position: relative; }
+    .tl-bullets li::before { content: '—'; position: absolute; left: 0; color: var(--accent); font-size: 0.7rem; top: 3px; }
+    .tl-tags { display: flex; flex-wrap: wrap; gap: 0.4rem; margin-top: 1rem; }
+
+    /* ── PROJECTS ── */
+    #projects { background: var(--bg); }
+    .projects-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(340px, 1fr)); gap: 1.5rem; margin-top: 3rem; }
+    .project-card { background: var(--card); border: 1px solid var(--card-border); border-radius: 14px; overflow: hidden; transition: transform 0.2s, border-color 0.2s; }
+    .project-card:hover { transform: translateY(-4px); border-color: rgba(79,142,247,0.35); }
+    .project-header { padding: 1.5rem 1.5rem 0; display: flex; align-items: flex-start; justify-content: space-between; }
+    .project-icon { width: 44px; height: 44px; border-radius: 10px; background: rgba(79,142,247,0.12); display: flex; align-items: center; justify-content: center; font-size: 20px; }
+    .project-body { padding: 1rem 1.5rem 1.5rem; }
+    .project-title { font-family: 'Syne', sans-serif; font-size: 1rem; font-weight: 700; color: var(--text); margin-bottom: 0.4rem; }
+    .project-abbr { font-size: 0.72rem; color: var(--muted); text-transform: uppercase; letter-spacing: 0.08em; margin-bottom: 0.8rem; }
+    .project-desc { color: var(--muted); font-size: 0.84rem; font-weight: 300; line-height: 1.8; margin-bottom: 1rem; }
+    .project-highlights { list-style: none; display: flex; flex-direction: column; gap: 0.4rem; margin-bottom: 1rem; }
+    .project-highlights li { font-size: 0.8rem; color: var(--muted); padding-left: 1rem; position: relative; }
+    .project-highlights li::before { content: '›'; position: absolute; left: 0; color: var(--accent); }
+    .project-footer { padding: 1rem 1.5rem; border-top: 1px solid var(--line); display: flex; flex-wrap: wrap; gap: 0.4rem; }
+
+    /* ── CONTACT ── */
+    #contact { background: var(--bg2); }
+    .contact-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 4rem; margin-top: 3rem; align-items: start; }
+    .contact-info p { color: var(--muted); font-size: 0.92rem; font-weight: 300; line-height: 1.9; margin-bottom: 1.5rem; }
+    .contact-links { display: flex; flex-direction: column; gap: 0.8rem; margin-top: 1.5rem; }
+    .contact-link { display: flex; align-items: center; gap: 12px; text-decoration: none; color: var(--muted); font-size: 0.88rem; transition: color 0.2s; padding: 0.8rem 1rem; border: 1px solid var(--line); border-radius: 8px; background: var(--card); }
+    .contact-link:hover { color: var(--accent); border-color: rgba(79,142,247,0.3); }
+    .contact-link-icon { width: 32px; height: 32px; border-radius: 7px; background: rgba(79,142,247,0.1); display: flex; align-items: center; justify-content: center; flex-shrink: 0; }
+    .contact-form { display: flex; flex-direction: column; gap: 1rem; }
+    .form-group { display: flex; flex-direction: column; gap: 0.4rem; }
+    .form-group label { font-size: 0.78rem; color: var(--muted); letter-spacing: 0.04em; }
+    .form-group input, .form-group textarea {
+      background: var(--card); border: 1px solid var(--line);
+      border-radius: 8px; color: var(--text);
+      font-family: 'DM Sans', sans-serif; font-size: 0.88rem; font-weight: 300;
+      padding: 10px 14px; outline: none; transition: border-color 0.2s;
+    }
+    .form-group textarea { resize: vertical; min-height: 120px; }
+    .form-group input:focus, .form-group textarea:focus { border-color: rgba(79,142,247,0.5); }
+    .form-submit { background: var(--accent); color: #fff; border: none; border-radius: 8px; padding: 12px 28px; font-family: 'DM Sans', sans-serif; font-size: 0.9rem; font-weight: 500; cursor: pointer; transition: opacity 0.2s; align-self: flex-start; }
+    .form-submit:hover { opacity: 0.85; }
+
+    /* ── FOOTER ── */
+    footer { background: var(--bg); border-top: 1px solid var(--line); padding: 2rem 5%; display: flex; align-items: center; justify-content: space-between; flex-wrap: gap; }
+    .footer-logo { font-family: 'Syne', sans-serif; font-weight: 800; font-size: 1rem; color: var(--accent); }
+    .footer-copy { font-size: 0.78rem; color: var(--muted); }
+    .footer-links { display: flex; gap: 1.5rem; }
+    .footer-links a { font-size: 0.78rem; color: var(--muted); text-decoration: none; transition: color 0.2s; }
+    .footer-links a:hover { color: var(--accent); }
+
+    /* ── MOBILE NAV ── */
+    .mobile-nav { display: none; }
+
+    /* ── RESPONSIVE ── */
+    @media (max-width: 900px) {
+      .hero-grid, .about-grid, .contact-grid { grid-template-columns: 1fr; }
+      .hero-visual { display: none; }
+      nav { display: none; }
+      .header-cta { display: none; }
+      .hamburger { display: flex; }
+      .mobile-nav.open { display: flex; flex-direction: column; gap: 0; background: var(--bg2); border-top: 1px solid var(--line); padding: 1rem 5%; }
+      .mobile-nav a { color: var(--muted); text-decoration: none; font-size: 0.95rem; padding: 0.75rem 0; border-bottom: 1px solid var(--line); }
+      .skills-cats { grid-template-columns: 1fr; }
+      .projects-grid { grid-template-columns: 1fr; }
+      footer { flex-direction: column; gap: 1rem; text-align: center; }
+      .about-grid { gap: 2rem; }
+      .avatar { max-width: 180px; }
+      .skills-grid { grid-template-columns: 1fr; }
+    }
+    @media (max-width: 480px) {
+      .hero-stats { grid-template-columns: 1fr 1fr; }
+      section { padding: 4rem 5%; }
+    }
+  </style>
 </head>
 <body>
-  <header>
-    <div class="logo">MyPortfolio</div>
-    <nav>
-      <a href="#">Home</a>
-      <a href="#">About</a>
-      <a href="#">Portfolio</a>
-      <a href="#">Contact</a>
-    </nav>
-    <div class="profile-icon"></div>
-  </header>
-  
-  <section class="hero">
-    <h1>Welcome to My Portfolio</h1>
-    <p>Explore my latest projects and work.</p>
-    <a href="#portfolio" class="btn">View My Work</a>
-  </section>
 
-  <main>
-    <section class="portfolio" id="portfolio">
-      <div class="portfolio-card">
-        <img src="project1.jpg" alt="Project 1">
-        <div class="card-content">
-          <h2>Project 1</h2>
-          <p>Brief description of project 1.</p>
+<header>
+  <div class="logo">VK</div>
+  <nav>
+    <a href="#about">About</a>
+    <a href="#skills">Skills</a>
+    <a href="#experience">Experience</a>
+    <a href="#projects">Projects</a>
+    <a href="#contact">Contact</a>
+  </nav>
+  <a href="mailto:yourmail@email.com" class="header-cta">Hire Me</a>
+  <div class="hamburger" onclick="document.querySelector('.mobile-nav').classList.toggle('open')">
+    <span></span><span></span><span></span>
+  </div>
+</header>
+
+<div class="mobile-nav">
+  <a href="#about" onclick="this.parentElement.classList.remove('open')">About</a>
+  <a href="#skills" onclick="this.parentElement.classList.remove('open')">Skills</a>
+  <a href="#experience" onclick="this.parentElement.classList.remove('open')">Experience</a>
+  <a href="#projects" onclick="this.parentElement.classList.remove('open')">Projects</a>
+  <a href="#contact" onclick="this.parentElement.classList.remove('open')">Contact</a>
+</div>
+
+<!-- HERO -->
+<section class="hero">
+  <div class="hero-grid">
+    <div class="hero-left">
+      <div class="hero-tag">Available for opportunities</div>
+      <h1>Vinay<br><span>Kumar</span></h1>
+      <p class="hero-desc">
+        Azure .NET Developer &amp; Full Stack Engineer with 3 years building event-driven microservices, scalable APIs, and responsive React frontends on Azure cloud infrastructure.
+      </p>
+      <div class="hero-btns">
+        <a href="#projects" class="btn-primary">View Projects</a>
+        <a href="#contact" class="btn-secondary">Get in Touch</a>
+      </div>
+      <div class="hero-stats">
+        <div class="stat">
+          <div class="stat-num">3+</div>
+          <div class="stat-label">Years experience</div>
+        </div>
+        <div class="stat">
+          <div class="stat-num">20K+</div>
+          <div class="stat-label">Messages/day processed</div>
+        </div>
+        <div class="stat">
+          <div class="stat-num">15+</div>
+          <div class="stat-label">REST APIs built</div>
         </div>
       </div>
-      <div class="portfolio-card">
-        <img src="project2.jpg" alt="Project 2">
-        <div class="card-content">
-          <h2>Project 2</h2>
-          <p>Brief description of project 2.</p>
+    </div>
+    <div class="hero-visual">
+      <div class="code-card">
+        <div class="code-dot">
+          <span class="dot-r"></span><span class="dot-y"></span><span class="dot-g"></span>
+        </div>
+        <div><span class="c-comment">// Azure Function — Service Bus trigger</span></div>
+        <div><span class="c-key">[FunctionName]</span><span class="c-str">("ProcessMarketingEvent")</span></div>
+        <div><span class="c-key">public async</span> Task Run(</div>
+        <div>&nbsp;&nbsp;<span class="c-key">[ServiceBusTrigger]</span></div>
+        <div>&nbsp;&nbsp;<span class="c-str">"marketing-queue"</span>,</div>
+        <div>&nbsp;&nbsp;<span class="c-key">string</span> message)</div>
+        <div>{</div>
+        <div>&nbsp;&nbsp;<span class="c-key">var</span> evt = JsonSerializer</div>
+        <div>&nbsp;&nbsp;&nbsp;&nbsp;.Deserialize&lt;<span class="c-val">MarketingEvent</span>&gt;(message);</div>
+        <div>&nbsp;&nbsp;<span class="c-key">await</span> _cosmos.UpsertAsync(evt);</div>
+        <div>&nbsp;&nbsp;_logger.LogInformation(</div>
+        <div>&nbsp;&nbsp;&nbsp;&nbsp;<span class="c-str">"Processed: {Id}"</span>, evt.Id);</div>
+        <div>}</div>
+      </div>
+      <div class="float-badge">
+        <div class="badge-icon">
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#4f8ef7" stroke-width="2"><polyline points="20 6 9 17 4 12"/></svg>
+        </div>
+        <div>
+          <div style="font-size:0.8rem;color:#e8edf5;font-weight:500;">AZ-900 Certified</div>
+          <div style="font-size:0.7rem;color:#7a869e;">Microsoft Azure</div>
         </div>
       </div>
-      <!-- Add more cards as needed -->
-    </section>
-  </main>
+    </div>
+  </div>
+</section>
 
-  <footer>
-    <p>&copy; 2024 MyPortfolio. All rights reserved.</p>
-    <a href="#">Privacy Policy</a> | <a href="#">Terms of Service</a>
-  </footer>
+<!-- ABOUT -->
+<section id="about">
+  <div class="section-inner">
+    <div class="section-label">About me</div>
+    <h2 class="section-title">Building reliable systems<br>at cloud scale</h2>
+    <div class="divider"></div>
+    <div class="about-grid">
+      <div class="avatar-wrap">
+        <div class="avatar">VK</div>
+        <div class="cert-badges">
+          <div class="cert-badge">
+            <div class="cert-icon">
+              <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#4f8ef7" stroke-width="2"><path d="M12 2l3 6.5L22 9.5l-5 5 1.18 7L12 18l-6.18 3.5L7 14.5 2 9.5l7-.5z"/></svg>
+            </div>
+            <div>
+              <div class="cert-name">Azure Fundamentals</div>
+              <div class="cert-year">AZ-900 · 2024</div>
+            </div>
+          </div>
+          <div class="cert-badge">
+            <div class="cert-icon">
+              <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#4f8ef7" stroke-width="2"><rect x="2" y="3" width="20" height="14" rx="2"/><path d="M8 21h8M12 17v4"/></svg>
+            </div>
+            <div>
+              <div class="cert-name">DevOps Foundations</div>
+              <div class="cert-year">AZ-2008</div>
+            </div>
+          </div>
+          <div class="cert-badge">
+            <div class="cert-icon">
+              <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#4f8ef7" stroke-width="2"><polyline points="22 12 18 12 15 21 9 3 6 12 2 12"/></svg>
+            </div>
+            <div>
+              <div class="cert-name">B.Tech Graduate</div>
+              <div class="cert-year">Malla Reddy Engineering · 2023</div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="about-text">
+        <p>I'm a <strong>software engineer based in India</strong> with 3 years of focused experience in two complementary domains: cloud-native Azure microservices and full stack .NET web development.</p>
+        <p>On the <strong>Azure / backend side</strong>, I build event-driven systems using Azure Functions, Service Bus, and Cosmos DB — handling 20K+ messages/day with fault-tolerant retry logic, dead-letter queues, and end-to-end observability via Application Insights.</p>
+        <p>On the <strong>full stack side</strong>, I deliver complete web applications with ASP.NET Core APIs and React + TypeScript frontends, focusing on clean architecture, JWT-based security, and optimized SQL Server performance.</p>
+        <p>I care about writing <strong>testable, maintainable code</strong> and automating everything I can through CI/CD pipelines in Azure DevOps.</p>
+        <div class="skills-grid">
+          <div class="skill-item"><div class="skill-label"><span>Azure / Cloud</span><span>90%</span></div><div class="skill-bar"><div class="skill-fill" style="width:90%"></div></div></div>
+          <div class="skill-item"><div class="skill-label"><span>C# / .NET</span><span>88%</span></div><div class="skill-bar"><div class="skill-fill" style="width:88%"></div></div></div>
+          <div class="skill-item"><div class="skill-label"><span>React / TypeScript</span><span>78%</span></div><div class="skill-bar"><div class="skill-fill" style="width:78%"></div></div></div>
+          <div class="skill-item"><div class="skill-label"><span>SQL Server / Cosmos DB</span><span>82%</span></div><div class="skill-bar"><div class="skill-fill" style="width:82%"></div></div></div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- SKILLS -->
+<section id="skills">
+  <div class="section-inner">
+    <div class="section-label">Technical skills</div>
+    <h2 class="section-title">Full stack across cloud<br>and web layers</h2>
+    <div class="divider"></div>
+    <div class="skills-cats">
+      <div class="skill-cat">
+        <div class="skill-cat-title">
+          <div class="skill-cat-icon"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#4f8ef7" stroke-width="2"><polyline points="16 18 22 12 16 6"/><polyline points="8 6 2 12 8 18"/></svg></div>
+          Backend
+        </div>
+        <div class="tags">
+          <span class="tag">C#</span><span class="tag">ASP.NET Core</span><span class="tag">Web API</span><span class="tag">Entity Framework Core</span><span class="tag">LINQ</span><span class="tag">.NET 6/8</span>
+        </div>
+      </div>
+      <div class="skill-cat">
+        <div class="skill-cat-title">
+          <div class="skill-cat-icon"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#4f8ef7" stroke-width="2"><path d="M3 9l9-7 9 7v11a2 2 0 01-2 2H5a2 2 0 01-2-2z"/></svg></div>
+          Cloud — Azure
+        </div>
+        <div class="tags">
+          <span class="tag">Azure Functions</span><span class="tag">Service Bus</span><span class="tag">App Services</span><span class="tag">Blob Storage</span><span class="tag">Event Grid</span><span class="tag">Application Insights</span><span class="tag">Azure Monitor</span>
+        </div>
+      </div>
+      <div class="skill-cat">
+        <div class="skill-cat-title">
+          <div class="skill-cat-icon"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#4f8ef7" stroke-width="2"><rect x="2" y="3" width="20" height="14" rx="2"/><path d="M8 21h8M12 17v4"/></svg></div>
+          Frontend
+        </div>
+        <div class="tags">
+          <span class="tag">React</span><span class="tag">TypeScript</span><span class="tag">JavaScript ES6+</span><span class="tag">HTML5</span><span class="tag">CSS3</span><span class="tag">Bootstrap</span><span class="tag">Fluent UI</span><span class="tag">Tailwind CSS</span>
+        </div>
+      </div>
+      <div class="skill-cat">
+        <div class="skill-cat-title">
+          <div class="skill-cat-icon"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#4f8ef7" stroke-width="2"><ellipse cx="12" cy="5" rx="9" ry="3"/><path d="M21 12c0 1.66-4 3-9 3s-9-1.34-9-3"/><path d="M3 5v14c0 1.66 4 3 9 3s9-1.34 9-3V5"/></svg></div>
+          Database
+        </div>
+        <div class="tags">
+          <span class="tag">SQL Server</span><span class="tag">Cosmos DB</span><span class="tag">Stored Procedures</span><span class="tag">Query Optimization</span><span class="tag">Indexing</span>
+        </div>
+      </div>
+      <div class="skill-cat">
+        <div class="skill-cat-title">
+          <div class="skill-cat-icon"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#4f8ef7" stroke-width="2"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg></div>
+          Security / Auth
+        </div>
+        <div class="tags">
+          <span class="tag">JWT</span><span class="tag">OAuth2</span><span class="tag">RBAC</span><span class="tag">Managed Identity</span><span class="tag">Azure AD / Entra ID</span>
+        </div>
+      </div>
+      <div class="skill-cat">
+        <div class="skill-cat-title">
+          <div class="skill-cat-icon"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#4f8ef7" stroke-width="2"><circle cx="12" cy="12" r="3"/><path d="M19.07 4.93a10 10 0 010 14.14M4.93 4.93a10 10 0 000 14.14"/></svg></div>
+          Architecture
+        </div>
+        <div class="tags">
+          <span class="tag">Microservices</span><span class="tag">Event-Driven</span><span class="tag">Pub/Sub</span><span class="tag">CQRS</span><span class="tag">REST</span>
+        </div>
+      </div>
+      <div class="skill-cat">
+        <div class="skill-cat-title">
+          <div class="skill-cat-icon"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#4f8ef7" stroke-width="2"><polyline points="22 12 18 12 15 21 9 3 6 12 2 12"/></svg></div>
+          Testing
+        </div>
+        <div class="tags">
+          <span class="tag">xUnit</span><span class="tag">Moq</span><span class="tag">Integration Testing</span><span class="tag">React Testing Library</span>
+        </div>
+      </div>
+      <div class="skill-cat">
+        <div class="skill-cat-title">
+          <div class="skill-cat-icon"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#4f8ef7" stroke-width="2"><circle cx="18" cy="18" r="3"/><circle cx="6" cy="6" r="3"/><path d="M6 21V9a9 9 0 009 9"/></svg></div>
+          DevOps / Tools
+        </div>
+        <div class="tags">
+          <span class="tag">Azure DevOps</span><span class="tag">CI/CD Pipelines</span><span class="tag">Git</span><span class="tag">Docker</span><span class="tag">Postman</span><span class="tag">Swagger</span>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- EXPERIENCE -->
+<section id="experience">
+  <div class="section-inner">
+    <div class="section-label">Experience</div>
+    <h2 class="section-title">Where I've built<br>production systems</h2>
+    <div class="divider"></div>
+    <div class="timeline">
+      <div class="tl-item">
+        <div class="tl-dot"></div>
+        <div class="tl-date">June 2023 — Present</div>
+        <div class="tl-role">Software Engineer</div>
+        <div class="tl-company">Kaar Infotech Pvt. Ltd.</div>
+        <ul class="tl-bullets">
+          <li>Developed event-driven microservices using Azure Functions and Service Bus, processing 20K+ messages/day via async workflows</li>
+          <li>Implemented retry policies and dead-letter queues, reducing message processing failure rates by 30%</li>
+          <li>Configured Application Insights for distributed tracing, structured logging, and alerting across all services</li>
+          <li>Secured service communication using Managed Identity and Azure AD (Entra ID), eliminating hardcoded credentials</li>
+          <li>Designed and built 15+ REST APIs handling 10K+ daily requests with JWT and OAuth2 authentication and RBAC access control</li>
+          <li>Optimized SQL Server queries, indexes, and stored procedures, improving performance by 25–35%</li>
+          <li>Built reusable React + TypeScript components with React Hook Form and React Context state management</li>
+          <li>Wrote unit and integration tests using xUnit and Moq, maintaining 80%+ coverage on critical service paths</li>
+          <li>Configured CI/CD pipelines in Azure DevOps, cutting deployment time by 40%</li>
+        </ul>
+        <div class="tl-tags">
+          <span class="tag">Azure Functions</span><span class="tag">Service Bus</span><span class="tag">Cosmos DB</span><span class="tag">ASP.NET Core</span><span class="tag">React</span><span class="tag">TypeScript</span><span class="tag">SQL Server</span>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- PROJECTS -->
+<section id="projects">
+  <div class="section-inner">
+    <div class="section-label">Projects</div>
+    <h2 class="section-title">Systems built from scratch</h2>
+    <div class="divider"></div>
+    <div class="projects-grid">
+      <div class="project-card">
+        <div class="project-header">
+          <div class="project-icon">
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#4f8ef7" stroke-width="1.8"><path d="M13 2L3 14h9l-1 8 10-12h-9l1-8z"/></svg>
+          </div>
+        </div>
+        <div class="project-body">
+          <div class="project-title">Marketing Orchestration System</div>
+          <div class="project-abbr">MOS</div>
+          <p class="project-desc">High-volume event-processing platform built on Azure, handling 20K+ marketing events per day with full fault tolerance and observability.</p>
+          <ul class="project-highlights">
+            <li>Pub/Sub model using Service Bus Topics with filter rules for event routing</li>
+            <li>Cosmos DB partition strategy for efficient data distribution</li>
+            <li>Exponential backoff retry + DLQ monitoring</li>
+            <li>Application Insights for end-to-end distributed tracing</li>
+            <li>Managed Identity — zero hardcoded credentials in codebase</li>
+          </ul>
+        </div>
+        <div class="project-footer">
+          <span class="tag">Azure Functions</span><span class="tag">Service Bus</span><span class="tag">Cosmos DB</span><span class="tag">App Insights</span><span class="tag">ASP.NET Core</span>
+        </div>
+      </div>
+      <div class="project-card">
+        <div class="project-header">
+          <div class="project-icon">
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#4f8ef7" stroke-width="1.8"><path d="M17 21v-2a4 4 0 00-4-4H5a4 4 0 00-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 00-3-3.87M16 3.13a4 4 0 010 7.75"/></svg>
+          </div>
+        </div>
+        <div class="project-body">
+          <div class="project-title">Unified Account Management Tool</div>
+          <div class="project-abbr">UAMT</div>
+          <p class="project-desc">Enterprise-grade web application for user and account lifecycle management, deployed on Azure App Services with full CI/CD automation.</p>
+          <ul class="project-highlights">
+            <li>JWT-based auth with role-based route protection on React frontend</li>
+            <li>Multi-step forms and approval workflows with Fluent UI</li>
+            <li>SQL Server optimization reducing average page load by 30%</li>
+            <li>Full legacy jQuery migration to React + TypeScript</li>
+            <li>Azure DevOps CI/CD pipeline for automated deployments</li>
+          </ul>
+        </div>
+        <div class="project-footer">
+          <span class="tag">ASP.NET Core</span><span class="tag">React</span><span class="tag">TypeScript</span><span class="tag">SQL Server</span><span class="tag">Fluent UI</span><span class="tag">Azure</span>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- CONTACT -->
+<section id="contact">
+  <div class="section-inner">
+    <div class="section-label">Contact</div>
+    <h2 class="section-title">Let's work together</h2>
+    <div class="divider"></div>
+    <div class="contact-grid">
+      <div class="contact-info">
+        <p>I'm actively looking for new opportunities in Azure .NET development and full stack engineering roles. Whether you have a position, a project, or just want to connect — feel free to reach out.</p>
+        <p>Based in India. Open to remote, hybrid, or relocation opportunities.</p>
+        <div class="contact-links">
+          <a href="mailto:yourmail@email.com" class="contact-link">
+            <div class="contact-link-icon"><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="#4f8ef7" stroke-width="2"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/><polyline points="22,6 12,13 2,6"/></svg></div>
+            yourmail@email.com
+          </a>
+          <a href="https://linkedin.com" class="contact-link">
+            <div class="contact-link-icon"><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="#4f8ef7" stroke-width="2"><path d="M16 8a6 6 0 016 6v7h-4v-7a2 2 0 00-2-2 2 2 0 00-2 2v7h-4v-7a6 6 0 016-6z"/><rect x="2" y="9" width="4" height="12"/><circle cx="4" cy="4" r="2"/></svg></div>
+            LinkedIn — Vinay Kumar
+          </a>
+          <a href="https://github.com" class="contact-link">
+            <div class="contact-link-icon"><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="#4f8ef7" stroke-width="2"><path d="M9 19c-5 1.5-5-2.5-7-3m14 6v-3.87a3.37 3.37 0 00-.94-2.61c3.14-.35 6.44-1.54 6.44-7A5.44 5.44 0 0020 4.77 5.07 5.07 0 0019.91 1S18.73.65 16 2.48a13.38 13.38 0 00-7 0C6.27.65 5.09 1 5.09 1A5.07 5.07 0 005 4.77a5.44 5.44 0 00-1.5 3.78c0 5.42 3.3 6.61 6.44 7A3.37 3.37 0 009 18.13V22"/></svg></div>
+            GitHub — your-handle
+          </a>
+        </div>
+      </div>
+      <div>
+        <form class="contact-form" onsubmit="handleSubmit(event)">
+          <div class="form-group">
+            <label>Your name</label>
+            <input type="text" placeholder="Jane Smith" required>
+          </div>
+          <div class="form-group">
+            <label>Email address</label>
+            <input type="email" placeholder="jane@company.com" required>
+          </div>
+          <div class="form-group">
+            <label>Message</label>
+            <textarea placeholder="Tell me about the role or project..." required></textarea>
+          </div>
+          <button type="submit" class="form-submit" id="submit-btn">Send Message</button>
+        </form>
+      </div>
+    </div>
+  </div>
+</section>
+
+<footer>
+  <div class="footer-logo">VK</div>
+  <p class="footer-copy">© 2025 Vinay Kumar. All rights reserved.</p>
+  <div class="footer-links">
+    <a href="#about">About</a>
+    <a href="#skills">Skills</a>
+    <a href="#projects">Projects</a>
+    <a href="#contact">Contact</a>
+  </div>
+</footer>
+
+<script>
+  function handleSubmit(e) {
+    e.preventDefault();
+    const btn = document.getElementById('submit-btn');
+    btn.textContent = 'Sending...';
+    btn.disabled = true;
+    setTimeout(() => {
+      btn.textContent = 'Message Sent!';
+      btn.style.background = '#1D9E75';
+      e.target.reset();
+      setTimeout(() => {
+        btn.textContent = 'Send Message';
+        btn.disabled = false;
+        btn.style.background = '';
+      }, 3000);
+    }, 1000);
+  }
+
+  document.querySelectorAll('a[href^="#"]').forEach(a => {
+    a.addEventListener('click', e => {
+      const target = document.querySelector(a.getAttribute('href'));
+      if (target) { e.preventDefault(); target.scrollIntoView({ behavior: 'smooth' }); }
+    });
+  });
+</script>
 </body>
 </html>
